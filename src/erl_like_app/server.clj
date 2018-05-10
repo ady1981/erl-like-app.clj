@@ -9,7 +9,7 @@
     [otplike.supervisor :as supervisor]
 
     [erl-like-app.config :as config]
-    [erl-like-app.todo-server :as todo-server])
+    [erl-like-app.todo.todo-server :as todo-server])
 
   (:gen-class))
 
