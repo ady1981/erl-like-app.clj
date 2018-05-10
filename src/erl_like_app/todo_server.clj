@@ -15,15 +15,13 @@
 
 (defn start-link [params]
   (gen-server/start-ns [params] {:spawn-opt {:link true
-                                 :register  SERVER_NAME
-                                 :name      :todo-server
-                                 :flags     {:trap-exit true}}}))
+                                             :register  SERVER_NAME
+                                             :flags     {:trap-exit true}}}))
 
 (defn init [params]
   (gen-server/cast (process/self) [:init params])
-  (log/info (name SERVER_NAME) "server initialized")
+  (log/info (name SERVER_NAME) "server started")
   [:ok {}])
-
 
 ;;;;;;;;;;;;; private
 

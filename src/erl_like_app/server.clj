@@ -37,9 +37,10 @@
 
 
 (defn start []
-
   (if-let [pid (process/whereis :boot-proc)]
+
     (log/info "already started" pid)
+
     (let [config (config/get-config)]
       (process/spawn-opt
         (process/proc-fn []
@@ -47,21 +48,19 @@
                          (match (start-boot-sup-link config)
 
                                 [:ok pid]
-                                (do
+                                (loop []
+                                  (process/receive!
 
-                                  (loop []
-                                    (process/receive!
+                                    :restart
+                                    (do
+                                      (log/info "------------------- RESTARTING -------------------")
+                                      (supervisor/terminate-child pid :app-sup)
+                                      (log/info "--------------------------------------------------")
+                                      (supervisor/restart-child pid :app-sup)
+                                      (recur))
 
-                                      :restart
-                                      (do
-                                        (log/info "------------------- RESTARTING -------------------")
-                                        (supervisor/terminate-child pid :app-sup)
-                                        (log/info "--------------------------------------------------")
-                                        (supervisor/restart-child pid :app-sup)
-                                        (recur))
-
-                                      :stop
-                                      (process/exit :normal))))
+                                    :stop
+                                    (process/exit :normal)))
 
                                 [:error reason]
                                 (log/error "cannot start root supervisor: " {:reason reason})))
