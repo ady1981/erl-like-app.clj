@@ -21,6 +21,9 @@
     [{:id :todo-server :start [todo-server/start-link [{}]]}]]])
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;; boot-proc
+
+
 (defn- start-app-sup-link [config]
   (supervisor/start-link :app-sup
                          app-sup
