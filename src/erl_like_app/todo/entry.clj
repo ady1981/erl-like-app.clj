@@ -6,7 +6,7 @@
 
 (defn create [id params]
   (let [t (get-current-time)]
-    (merge (select-keys params [:title])
+    (merge params
            {:id id
             :created t
             :updated t

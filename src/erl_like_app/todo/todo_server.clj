@@ -38,11 +38,11 @@
                                              :register  SERVER_NAME
                                              :flags     {:trap-exit true}}}))
 
-(defn init [params]
-  (gen-server/cast (process/self) [:init params])
-  (log/info (name SERVER_NAME) "server started")
-  [:ok {}])
-
+(defn init [_params]
+  (let [state {:counter 0,
+               :db {}}]
+    (log/info (name SERVER_NAME) "server initialized")
+    [:ok state]))
 
 ;;;;;;;;;;;;; API
 
@@ -67,12 +67,6 @@
   (call* :enumerate-active-todos))
 
 ;;;;;;;;;;;;; core
-
-
-(defn- init* [_params]
-  (let [state {:counter 0,
-               :db {}}]
-    [:noreply state]))
 
 ;; -> [id updated_state]
 (defn- next-id [{:keys [counter] :as state}]
@@ -117,13 +111,6 @@
 
 ;;;;;;;;;;;;; otp
 
-(defn handle-cast [message _state]
-  (match message
-
-         [:init params]
-         (init* params)))
-
-
 (defn handle-call [message _from state]
   (match message
 
@@ -143,5 +130,15 @@
          (enumerate-active-todos* state)))
 
 
-(defn terminate [_ _state]
+(defn handle-cast [message state]
+  (log/error "unknown cast:" message)
+  [:noreply state])
+
+
+(defn handle-info [message state]
+  (log/error "unknown info:" message)
+  [:noreply state])
+
+
+(defn terminate [_reason _state]
   (log/info (name SERVER_NAME) "server stopped"))

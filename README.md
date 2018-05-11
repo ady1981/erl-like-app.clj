@@ -1,14 +1,12 @@
-# erl-like-app.clj
-
-A Clojure library designed to ... well, that part is up to you.
+# Otplike example application  
 
 ## Usage
 
-FIXME
+`lein repl`
+
+See example calls in `./env/dev/erl_like_app` namespaces.
 
 ## License
-
-Copyright © 2018 FIXME
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
