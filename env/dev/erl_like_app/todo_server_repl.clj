@@ -5,13 +5,14 @@
 
 #_(server/restart)
 
-#_(create-todo {:title "Task #1"})
+#_(create-todo {:title "task #1", :description "create task #2"})
+#_(create-todo {:title "task #2"})
 
 #_(find-todo-by-id "1")
 
-#_(terminate-todo "2")
+#_(terminate-todo "1")
 
-#_(delete-todo nil)
+#_(delete-todo "1")
 
 #_(enumerate-active-todos)
 
